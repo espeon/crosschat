@@ -76,10 +76,14 @@ export function ChatOverlay() {
     }
   }, [messages, params?.direction]);
 
-  // Apply font size to root element
+  // Apply font size and hideAfter to root element
   useEffect(() => {
     if (params) {
-      document.documentElement.style.fontSize = `${params.fontSize}px`;
+      document.documentElement.style.fontSize = params.fontSize + "px";
+      document.documentElement.style.setProperty(
+        "--hide-after",
+        params.hideAfter + "s"
+      );
     }
   }, [params]);
 
@@ -163,7 +167,7 @@ function MessageRow({
   params: ParsedChatParams;
 }) {
   return (
-    <div className={`chat-row platform-${message.platform}`}>
+    <div className={`chat-row platform-${message.platform}${(params.hideAfter ?? 0) > 0 ? " fade-enabled" : ""}`}>
       {params.showPlatform && (
         <span className={`platform-marker platform-${message.platform}`}>
           {message.platform === "twitch" ? <TwitchLogo /> : <StreamplaceLogo />}

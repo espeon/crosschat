@@ -35,7 +35,8 @@ export function parseChatParams(search: string): ParsedChatParams {
   const direction = params.get("direction") === "up" ? "up" : "down";
 
   const hideAfterRaw = params.get("hideAfter");
-  const hideAfter = hideAfterRaw ? parseFloat(hideAfterRaw) : undefined;
+  const hideAfter =
+    hideAfterRaw === "false" ? 0 : hideAfterRaw ? parseFloat(hideAfterRaw) : 60;
 
   const maxRaw = params.get("max");
   const max = maxRaw ? Math.max(10, Math.min(500, parseInt(maxRaw, 10))) : DEFAULT_QUERY_PARAMS.max;

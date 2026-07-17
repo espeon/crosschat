@@ -53,6 +53,7 @@ export class TwitchAdapter {
   private opts: TwitchAdapterOptions;
   private badgeResolver: TwitchBadgeResolver;
   private channelId: string | null = null;
+  private keepaliveTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(opts: TwitchAdapterOptions) {
     this.opts = opts;
@@ -93,6 +94,15 @@ export class TwitchAdapter {
       this.badgeResolver.fetch().finally(() => {
         ws.send("JOIN #" + channel + "\r\n");
         this.opts.onStatus("connected");
+
+        // Send a PING every 3.5 minutes to keep the connection alive.
+        // Twitch sends its own PING ~every 5 min, but in quiet channels
+        // the connection can appear idle and get dropped.
+        this.keepaliveTimer = setInterval(() => {
+          if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send("PING :keepalive\r\n");
+          }
+        }, 210_000);
       });
     };
 
@@ -137,6 +147,10 @@ export class TwitchAdapter {
     };
 
     this.ws.onclose = () => {
+      if (this.keepaliveTimer) {
+        clearInterval(this.keepaliveTimer);
+        this.keepaliveTimer = null;
+      }
       if (this.disposed) return;
       this.opts.onStatus("disconnected");
       this.scheduleReconnect();
@@ -173,6 +187,10 @@ export class TwitchAdapter {
     if (this.reconnectTimer) {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;
+    }
+    if (this.keepaliveTimer) {
+      clearInterval(this.keepaliveTimer);
+      this.keepaliveTimer = null;
     }
     if (this.ws) {
       this.ws.onopen = null;
