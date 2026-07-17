@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <!--
+      Content-Security-Policy (section 7.2).
+      Allows: Vite HMR (ws/localhost dev), Twitch IRC WebSocket,
+      Twitch badge/emote CDN, Streamplace WebSocket + media.
+      No inline scripts, no unknown origins.
+    -->
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+        script-src 'self' 'unsafe-inline' http://localhost:5173;
+        style-src 'self' 'unsafe-inline';
+        img-src https://static-cdn.jtvnw.net https://stream.place https: data:;
+        connect-src wss://irc-ws.chat.twitch.tv:443 wss://stream.place https://stream.place https://badges.twitch.tv http://localhost:5173 ws://localhost:5173;
+        font-src 'self';" />
+    <title>crosschat — multichat OBS overlay</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,338 @@
+/* ===========================================================================
+ * Chat overlay styles.
+ *
+ * Transparent by default for OBS browser source usage.
+ * No scrollbars, no chrome, pointer-events disabled in OBS mode.
+ * (Section 6.1)
+ * =========================================================================== */
+
+:root {
+  --chat-font-size: 14px;
+  --chat-line-height: 1.5;
+  --chat-padding: 4px 8px;
+  --chat-gap: 2px;
+  --tw-color: #9147ff;
+  --sp-color: #8a2be2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  background: transparent !important;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--chat-font-size);
+  line-height: var(--chat-line-height);
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
+
+/* Prevent interaction in OBS overlay mode (section 7.2) */
+#root {
+  pointer-events: none;
+  user-select: none;
+}
+
+.chat-overlay {
+  pointer-events: none;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Direction variants ---
+ * direction-down (default): messages start at the top and flow down.
+ * direction-up: messages start at the bottom and flow up.
+ */
+.chat-overlay.direction-down {
+  justify-content: flex-start;
+}
+.chat-overlay.direction-up {
+  justify-content: flex-end;
+}
+
+/* --- Theme variants --- */
+.chat-overlay.theme-transparent {
+  background: transparent;
+  color: #fff;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 1);
+}
+.chat-overlay.theme-dark {
+  background: #0e0e10;
+  color: #efeff1;
+}
+.chat-overlay.theme-light {
+  background: #fff;
+  color: #1f1f23;
+  text-shadow: none;
+}
+
+/* === Pinned message region (section 6.3) === */
+.chat-pin-region {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: var(--chat-padding);
+  background: rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.pin-label {
+  font-size: 0.75em;
+  font-weight: bold;
+  color: #ffd700;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* === Debug status === */
+.chat-debug {
+  position: fixed;
+  top: 4px;
+  right: 4px;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.debug-status {
+  display: flex;
+  gap: 8px;
+  font-size: 0.7em;
+  font-family: monospace;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #ccc;
+}
+
+.status-twitch, .status-sp {
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.status-connected { color: #4ade80; }
+.status-connecting { color: #fbbf24; }
+.status-reconnecting { color: #fbbf24; }
+.status-disconnected { color: #f87171; }
+.status-error { color: #f87171; }
+
+.debug-error {
+  font-size: 0.8em;
+  color: #f87171;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* === Message list === */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chat-gap);
+  padding: var(--chat-padding);
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  text-align: left;
+  justify-content: flex-end;
+}
+
+.direction-up .chat-messages {
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+}
+
+/* === Message row === */
+.chat-row {
+  display: block;
+  padding: 2px 0;
+  max-width: 100%;
+  animation: fadeInUp 0.15s ease-out;
+  line-height: var(--chat-line-height);
+  text-align: left;
+}
+
+/* Inline children sit on the text baseline with spacing */
+.chat-row > * {
+  display: inline;
+  vertical-align: baseline;
+  margin-right: 4px;
+}
+
+.chat-row > *:last-child {
+  margin-right: 0;
+}
+
+.badge-row {
+  display: inline-flex !important;
+  align-items: baseline;
+  gap: 2px;
+  vertical-align: baseline;
+}
+
+.platform-marker {
+  display: inline-flex !important;
+  align-items: baseline;
+  justify-content: center;
+  opacity: 0.85;
+  vertical-align: baseline;
+}
+
+.direction-up .chat-row {
+  animation: fadeInDown 0.15s ease-out;
+}
+
+/* Platform marker (section 6.2) — inline SVG logos, no remote assets */
+.platform-marker {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+  vertical-align: baseline;
+}
+
+.platform-marker svg {
+  width: 14px;
+  height: 14px;
+}
+
+.platform-marker.platform-twitch {
+  color: #9147ff;
+}
+
+.platform-marker.platform-streamplace {
+  color: #8a2be2;
+}
+
+/* Badges */
+.badge-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-shrink: 0;
+  vertical-align: baseline;
+}
+
+.badge-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.badge-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  font-size: 0.55em;
+  font-weight: bold;
+  border-radius: 2px;
+  color: #fff;
+}
+
+.badge-twitch { background: var(--tw-color); }
+.badge-streamplace { background: var(--sp-color); }
+
+/* Author name */
+.author-name {
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Message fragments */
+.message-fragments {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.frag-text { white-space: pre-wrap; }
+
+.frag-emote {
+  display: inline-block;
+  height: 1.4em;
+  width: auto;
+  vertical-align: middle;
+}
+
+.frag-mention {
+  color: var(--sp-color);
+  font-weight: 600;
+  background: rgba(138, 43, 226, 0.15);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.frag-link {
+  color: #3ba6f5;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.frag-cheermote {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.frag-cheermote img {
+  height: 1.4em;
+  width: auto;
+}
+
+/* Reply context */
+.reply-context {
+  display: block;
+  font-size: 0.8em;
+  opacity: 0.6;
+  padding-left: 20px;
+  width: 100%;
+  font-style: italic;
+}
+
+/* === Empty state === */
+.chat-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #888;
+  font-size: 0.8em;
+}
+
+/* === Animations === */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === Reduced motion (section 6.1) === */
+@media (prefers-reduced-motion: reduce) {
+  .chat-row {
+    animation: none;
+  }
+}
+
+/* Hide scrollbars (section 6.1) */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
