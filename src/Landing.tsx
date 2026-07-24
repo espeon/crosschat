@@ -28,6 +28,7 @@ function Landing() {
           <span className="brand-name">crosschat</span>
         </div>
         <nav>
+          <a href="/builder">builder</a>
           <a href="/test">test</a>
           <a
             href="https://github.com/espeon/crosschat"
