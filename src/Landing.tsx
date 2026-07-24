@@ -80,7 +80,8 @@ function Landing() {
 
         <div className="platforms">
           <span className="platform-badge">
-            <StreamplaceLogo size={18}  style={{filter: "grayscale(100%)"}} />
+
+            <StreamplaceLogo size={18} />
             Streamplace
           </span>
           <span className="platform-badge">
