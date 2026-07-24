@@ -1,0 +1,224 @@
+/* ===========================================================================
+ * Test page styles.
+ *
+ * The test page is a dev utility — it has interactive controls and a
+ * scrollable layout, unlike the OBS overlay which is pointer-events:none.
+ * =========================================================================== */
+
+.test-page {
+  pointer-events: auto;
+  user-select: auto;
+  min-height: 100vh;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0;
+}
+
+/* --- Theme variants (mirror overlay.css) --- */
+.test-page.theme-dark {
+  background: #0e0e10;
+  color: #efeff1;
+}
+.test-page.theme-light {
+  background: #fff;
+  color: #1f1f23;
+}
+.test-page.theme-transparent {
+  background: #1a1a2e;
+  color: #fff;
+  text-shadow: 0 0 0.1875rem rgba(0, 0, 0, 0.9);
+}
+
+/* --- Header --- */
+.test-header {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: inherit;
+}
+
+.test-page.theme-dark .test-header {
+  background: #0e0e10;
+}
+.test-page.theme-light .test-header {
+  background: #fff;
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+.test-page.theme-transparent .test-header {
+  background: #1a1a2e;
+}
+
+.test-header h1 {
+  font-size: 1.225rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.test-header p {
+  font-size: 0.7438rem;
+  opacity: 0.6;
+  margin-bottom: 0.75rem;
+}
+
+.test-header code {
+  font-family: monospace;
+  font-size: 0.7875rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.0625rem 0.25rem;
+  border-radius: 0.1875rem;
+}
+
+.test-page.theme-light .test-header code {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* --- Controls --- */
+.test-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.7438rem;
+}
+
+.test-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  cursor: pointer;
+}
+
+.test-controls select {
+  background: inherit;
+  color: inherit;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.1875rem;
+  padding: 0.125rem 0.375rem;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.test-page.theme-light .test-controls select {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.test-controls a {
+  margin-left: auto;
+  color: #9147ff;
+  text-decoration: none;
+  font-size: 0.7438rem;
+}
+
+.test-controls a:hover {
+  text-decoration: underline;
+}
+
+/* --- Pinned message preview --- */
+.test-pin {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.15);
+}
+
+.test-page.theme-light .test-pin {
+  background: rgba(0, 0, 0, 0.04);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.test-pin .pin-label {
+  font-size: 0.6563rem;
+  font-weight: bold;
+  color: #ffd700;
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+/* --- Sections --- */
+.test-sections {
+  padding: 1rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.test-section {
+  border: 0.0625rem solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.test-page.theme-light .test-section {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.test-section-header {
+  padding: 0.625rem 0.875rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.test-page.theme-light .test-section-header {
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+.test-section-header h2 {
+  font-size: 0.8313rem;
+  font-weight: 600;
+}
+
+.test-section-desc {
+  font-size: 0.6563rem;
+  opacity: 0.5;
+}
+
+/* --- Message list within a section --- */
+.test-message-list {
+  padding: 0.5rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+/* Override overlay CSS that would hide/fade messages in OBS mode.
+ * The test page needs pointer events and visible scrollbars. */
+.test-page .chat-overlay,
+.test-page .chat-messages {
+  pointer-events: auto;
+  user-select: auto;
+}
+
+.test-page ::-webkit-scrollbar {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.test-page ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.test-page ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0.25rem;
+}
+
+.test-page.theme-light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Re-enable fade animations for visual testing but disable auto-fade.
+ * The overlay.css .fade-enabled class triggers fadeOut — we neutralize it
+ * on the test page so messages stay visible. */
+.test-page .chat-row.fade-enabled {
+  animation: fadeInUp 0.15s ease-out;
+}

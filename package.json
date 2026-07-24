@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build && mv dist/index.html dist/200.html && cp CNAME dist/cname",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pnpm build && npx surge dist"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.45.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },

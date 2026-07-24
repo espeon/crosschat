@@ -159,13 +159,12 @@ export function ChatOverlay() {
 // Message row
 // ---------------------------------------------------------------------------
 
-function MessageRow({
-  message,
-  params,
-}: {
+export interface MessageRowProps {
   message: NormalizedMessage;
   params: ParsedChatParams;
-}) {
+}
+
+export function MessageRow({ message, params }: MessageRowProps) {
   return (
     <div className={`chat-row platform-${message.platform}${(params.hideAfter ?? 0) > 0 ? " fade-enabled" : ""}`}>
       {params.showPlatform && (
@@ -196,8 +195,14 @@ function MessageRow({
         ))}
       </span>
       {message.reply && (
-        <span className="reply-context">
-          ↳ {message.reply.parentAuthor ? `${message.reply.parentAuthor}: ` : ""}
+        <span className="reply-context" style={{
+          marginTop: "-0.5em"}}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style={{
+            width: "1.3em", marginBottom: "0.375em"}} className="platform-marker">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	<path d="M6 6v6a3 3 0 0 0 3 3h10l-4 -4m0 8l4 -4" />
+          </svg>
+           {message.reply.parentAuthor ? `${message.reply.parentAuthor}: ` : ""}
           {message.reply.parentText}
         </span>
       )}
