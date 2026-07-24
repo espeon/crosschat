@@ -15,13 +15,18 @@
   --sp-color: #8a2be2;
 }
 
-* {
+/* Global reset scoped to the chat overlay only, so landing/test pages
+ * keep normal pointer events and overflow behavior. */
+.chat-overlay,
+.chat-overlay * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html:has(.chat-overlay),
+html:has(.chat-overlay) body,
+html:has(.chat-overlay) #root {
   background: transparent !important;
   overflow: hidden;
   height: 100vh;
@@ -37,11 +42,6 @@ html, body, #root {
 }
 
 /* Prevent interaction in OBS overlay mode (section 7.2) */
-#root {
-  pointer-events: none;
-  user-select: none;
-}
-
 .chat-overlay {
   pointer-events: none;
   user-select: none;

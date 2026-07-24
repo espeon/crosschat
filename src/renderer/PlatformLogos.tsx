@@ -5,7 +5,7 @@
  * immediately on OBS launch (section 6.1).
  */
 
-export function StreamplaceLogo({ size = 14 }: { size?: number }) {
+export function StreamplaceLogo({ size = 14, ...rest }: { size?: number }) {
   return (
     <svg
       width={size}
@@ -14,6 +14,7 @@ export function StreamplaceLogo({ size = 14 }: { size?: number }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      {...rest}
     >
       <path d="M43.3754 40.1349L33.8135 46.3873V35.2284L43.3754 40.1349ZM28.1641 32.3276L19.5407 37.9688L18.9681 26.9812L28.1641 32.3276ZM43.6482 23.5655L33.4628 29.4897L32.8678 18.0349L43.6482 23.5655Z" fill="oklch(0.6803 0.2158 339.7)" fillOpacity="0.05" />
       <path d="M33.8134 34.59L46.6717 37.819L37.2113 47.6831L34.4887 47.4905L33.8134 47.3205V46.3873L43.3754 40.1349L33.8134 35.2284V34.59ZM18.9681 26.9812L19.5407 37.9688L28.1652 32.3276L28.804 32.6997L19.935 41.948L19.9197 41.9159L15.9882 28.113L17.1794 26.3309L17.4191 26.0812L18.9681 26.9812ZM44.3766 23.1435L43.6505 23.5667L32.8677 18.0349L33.4628 29.4897L32.994 29.762L29.2136 16.4846L29.5064 16.506L43.02 19.9002L44.0755 22.0794L44.3766 23.1435Z" fill="oklch(0.6803 0.2158 339.7)" fillOpacity="0.1" />

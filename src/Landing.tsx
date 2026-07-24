@@ -1,6 +1,6 @@
+import { useState } from "react";
 import {
   IconBrandTwitch,
-  IconBrandStackshare,
   IconMessage2,
   IconShieldCheck,
   IconBolt,
@@ -9,12 +9,16 @@ import {
   IconEye,
   IconArrowRight,
   IconBrandGithub,
-  IconFlask,
 } from "@tabler/icons-react";
+
 import "./App.css";
+import { StreamplaceLogo } from "./renderer/PlatformLogos";
 
 function Landing() {
-  const overlayUrl = "/chat?streamplace=zeu.dev&twitch=zeu_dev";
+  const [twitch, setTwitch] = useState("zeu_dev");
+  const [streamplace, setStreamplace] = useState("zeu.dev");
+
+  const overlayUrl = `/chat?streamplace=${streamplace}&twitch=${twitch}`;
 
   return (
     <div className="landing">
@@ -26,7 +30,7 @@ function Landing() {
         <nav>
           <a href="/test">test</a>
           <a
-            href="https://github.com/natalie/crosschat"
+            href="https://github.com/espeon/crosschat"
             target="_blank"
             rel="noreferrer"
           >
@@ -38,17 +42,36 @@ function Landing() {
 
       <main className="landing-hero">
         <h1>
-          one overlay,
+          <span style={{opacity: 0.65}}>one overlay,</span>
           <br />
-          two chats.
+          multiple chats.
         </h1>
         <p className="tagline">
           Twitch and Streamplace merged into a single transparent OBS browser
-          source. No server, no tokens, no setup beyond a URL.
+          source. No other setup needed.
         </p>
 
         <div className="overlay-url">
-          <code>{overlayUrl}</code>
+          <code className="url-editor">
+            <span className="url-static">/chat?streamplace=</span>
+            <input
+              type="text"
+              className="url-editable"
+              value={streamplace}
+              onChange={(e) => setStreamplace(e.target.value)}
+              spellCheck={false}
+              size={Math.max(streamplace.length, 1)}
+            />
+            <span className="url-static">&amp;twitch=</span>
+            <input
+              type="text"
+              className="url-editable"
+              value={twitch}
+              onChange={(e) => setTwitch(e.target.value)}
+              spellCheck={false}
+              size={Math.max(twitch.length, 1)}
+            />
+          </code>
           <a href={overlayUrl} className="open-btn">
             open overlay
             <IconArrowRight size={16} />
@@ -57,12 +80,12 @@ function Landing() {
 
         <div className="platforms">
           <span className="platform-badge">
-            <IconBrandTwitch size={18} />
-            Twitch
+            <StreamplaceLogo size={18}  style={{filter: "grayscale(100%)"}} />
+            Streamplace
           </span>
           <span className="platform-badge">
-            <IconBrandStackshare size={18} />
-            Streamplace
+            <IconBrandTwitch size={18} />
+            Twitch
           </span>
         </div>
       </main>
@@ -71,22 +94,22 @@ function Landing() {
         <Feature
           icon={<IconMessage2 size={20} />}
           title="Unified timeline"
-          desc="Messages from both platforms interleaved by timestamp, or split into columns."
+          desc="Messages from both platforms interleaved by timestamp."
         />
         <Feature
           icon={<IconShieldCheck size={20} />}
           title="Moderation aware"
-          desc="Twitch CLEARMSG/CLEARCHAT and Streamplace deletes remove messages in real time."
+          desc="Twitch CLEAR* and Streamplace delete requests remove messages in real time."
         />
         <Feature
           icon={<IconBolt size={20} />}
           title="Instant connect"
-          desc="Anonymous Twitch IRC and read-only Streamplace WebSocket. No OAuth, no backend."
+          desc="Anonymous IRC over Twitch and read-only Streamplace WebSocket. No oAuth or backend needed."
         />
         <Feature
           icon={<IconArrowsVertical size={20} />}
           title="Survives disconnects"
-          desc="Independent reconnect with backoff and dedup — no duplicate messages on reconnect."
+          desc="Independent reconnect with backoff and dedup, so no duplicate messages on reconnect."
         />
         <Feature
           icon={<IconPin size={20} />}
@@ -99,14 +122,6 @@ function Landing() {
           desc="No background, no scrollbars, no chrome. Themeable to dark or light."
         />
       </section>
-
-      <footer className="landing-footer">
-        <a href="/test">
-          <IconFlask size={16} />
-          view test page
-        </a>
-        <span>MIT</span>
-      </footer>
     </div>
   );
 }

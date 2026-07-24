@@ -116,6 +116,7 @@ body {
   margin: 0 0 2rem;
 }
 
+/* --- Inline URL editor --- */
 .overlay-url {
   display: flex;
   align-items: center;
@@ -124,14 +125,33 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.overlay-url code {
+.url-editor {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--mono);
   font-size: 0.8125rem;
   padding: 0.5rem 0.875rem;
   background: var(--surface);
   border: 0.0625rem solid var(--border);
   border-radius: var(--radius);
+  color: var(--text-dim);
+}
+
+.url-static {
+  white-space: nowrap;
+}
+
+.url-editable {
+  font: inherit;
+  font-family: var(--mono);
+  background: transparent;
+  border: none;
+  outline: none;
   color: var(--text-h);
+  padding: 0;
+  min-width: 0.5rem;
+  /* size attr sets width in ch units; prevent it from being too narrow */
+  width: auto;
 }
 
 .open-btn {
@@ -211,27 +231,4 @@ body {
   .features {
     grid-template-columns: 1fr;
   }
-}
-
-/* --- Footer --- */
-.landing-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 0;
-  border-top: 0.0625rem solid var(--border);
-  font-size: 0.8125rem;
-  color: var(--text-dim);
-}
-
-.landing-footer a {
-  display: flex;
-  align-items: center;
-  gap: 0.3125rem;
-  color: var(--text-dim);
-  text-decoration: none;
-}
-
-.landing-footer a:hover {
-  color: var(--text-h);
 }
